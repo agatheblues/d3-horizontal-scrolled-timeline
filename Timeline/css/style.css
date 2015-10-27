@@ -12,9 +12,10 @@ font-family: BebasNeueLight;
 src: url('font/BebasNeueLight.otf') format('opentype');
 }
 
-#timeline {
-    margin : 10px;
+svg {
+    margin : auto;
     padding : 20px;
+    display: block;
 }
 
 .axis path, .axis line {
