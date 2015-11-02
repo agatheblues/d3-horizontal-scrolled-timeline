@@ -11,8 +11,8 @@ var dataset1 = [
 	    {
             "debutDate": 2014,
             "endDate": 2014,
-            "name": "Master of Science in IT & Telecommunications",
-            "description": "Specialisation in Audiovisual and Multimedia Project Management (P.A.M.)"
+            "name": "Master of cooking in Lemon Meringue Pie",
+            "description": "Specialisation in cookies and kit kat ball ice-cream"
         }
 	  ]
     },
@@ -22,14 +22,14 @@ var dataset1 = [
 	    {
             "debutDate": 2009,
             "endDate": 2011,
-            "name": "MPSI / MP",
-            "description": "Classes preparing for entrance examinations to the French Grandes Ecoles"
+            "name": "Cooking",
+            "description": "Classes preparing for entrance examinations to the French Cooking School"
         },
 	    {
             "debutDate": 2011,
             "endDate": 2014,
-            "name": "Telecom SudParis",
-            "description": "Engineering School"
+            "name": "A la bonne fourchette",
+            "description": "Cooking School"
         }
 	  ]
     },
@@ -42,19 +42,19 @@ var dataset2 = [
             "debutDate": 2011,
             "endDate": 2014,
             "name": "Private Teaching",
-            "description": "Mathematics"
+            "description": "One pie a day"
         },
 	    {
             "debutDate": 2012,
             "endDate": 2013,
-            "name": "President of the Sound & Light club",
+            "name": "President of the pie cooking club",
             "description": "Student association"
         },
 	    {
             "debutDate": 2013,
             "endDate": 2014,
-            "name": "Short Movie",
-            "description": "Specialisation P.A.M. Project"
+            "name": "The longest pie ever",
+            "description": "Specialisation Pie Project"
         }
 	  ]
     },
@@ -64,20 +64,20 @@ var dataset2 = [
 	    {
             "debutDate": 2012,
             "endDate": 2012,
-            "name": "Internship at Telecom SudParis",
-            "description": "Candidate Welcome Center"
+            "name": "Internship at La bonne auberge",
+            "description": "Restaurant hosting"
         },
 	    {
             "debutDate": 2013,
             "endDate": 2013,
-            "name": "Internship at Saint-Gobain",
-            "description": "Development of a MS Access app"
+            "name": "Internship at La bonne tarte",
+            "description": "Responsible of the croissants"
         },
 	    {
             "debutDate": 2014,
             "endDate": 2014,
-            "name": "Internship at Saint-Gobain",
-            "description": "Refactor of 2 intranets with Liferay Portal"
+            "name": "Internship at Le bon gateau",
+            "description": "The perfect pie"
         }
 	  ]
     },
@@ -127,7 +127,9 @@ function update(dataset){
 					  .tickFormat(d3.format("d"));	// Remove comma for thousands (2,010)
 
 
-	yAxis.call(yAxisDef);
+	yAxis.transition()
+		.duration(1000)
+		.call(yAxisDef);
 
 	var ticks = yAxis.selectAll(".tick");
 		ticks.each(function() {
@@ -196,7 +198,11 @@ var names = eventsContainer.selectAll('text.name')
 				 				.append('text')
 								.attr('class','name');
 
-						names.text(function(d){return d;});
+						names.text(function(d){return d;})
+								.attr('opacity',0)
+								.transition()
+		                        .duration(1000)
+								.attr('opacity',1);
 
 						names.exit()
 								.remove();
@@ -209,7 +215,11 @@ var descriptions = eventsContainer.selectAll('text.description')
 										.attr('class','description')
 										.attr('transform','translate(0,20)');
 
-						descriptions.text(function(d){return d;});
+						descriptions.text(function(d){return d;})
+										.attr('opacity',0)
+										.transition()
+				                        .duration(1000)
+										.attr('opacity',1);
 
 						descriptions.exit()
 										.remove();
@@ -235,6 +245,22 @@ d3.select('#change').on('click',function(){
 	} else {
 		update(dataset1);
 		i=0;
+	}
+
+});
+
+var compteur = 0;
+var i = 1;
+window.addEventListener("wheel", function(e){
+	compteur += e.deltaY;
+	console.log(compteur);
+
+	if (compteur > 100 && i!=2) {
+		update(dataset2);
+		i = 2;
+	} else if (compteur < 100 && i!=1){
+		update(dataset1);
+		i = 1;
 	}
 
 });

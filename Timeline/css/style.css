@@ -1,4 +1,4 @@
-
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
 @font-face {
 font-family: BebasNeueRegular;
 src: url('font/BebasNeueRegular.otf') format('opentype');
@@ -12,6 +12,11 @@ font-family: BebasNeueLight;
 src: url('font/BebasNeueLight.otf') format('opentype');
 }
 
+body {
+    font-family: Open Sans;
+    font-weight: 300;
+    font-size: 14px; 
+}
 svg {
     margin : auto;
     padding : 20px;
@@ -33,4 +38,8 @@ svg {
 
 #timeline circle {
     fill : red;
+}
+
+.name {
+    font-weight: 400;
 }
