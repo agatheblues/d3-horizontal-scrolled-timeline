@@ -15,14 +15,36 @@ src: url('font/BebasNeueLight.otf') format('opentype');
 body {
     font-family: Open Sans;
     font-weight: 300;
-    font-size: 14px; 
+    font-size: 14px;
 }
+
 svg {
-    margin : auto;
-    padding : 20px;
+    margin: auto;
+    padding: 20px;
     display: block;
 }
 
+/* Nav menu */
+#menuContainer {
+    float : right;
+    display : inline;
+}
+
+circle.marker {
+    fill: white;
+    stroke: black;
+    stroke-width: 0.5px;
+    cursor: pointer;
+}
+
+circle.marker.active {
+    fill: black;
+    stroke: black;
+    stroke-width: 0.5px;
+}
+
+
+/* Timeline axis*/
 .axis path, .axis line {
     fill: none;
     stroke: red;
@@ -37,9 +59,10 @@ svg {
 }
 
 #timeline circle {
-    fill : red;
+    fill: red;
 }
 
+/* Timeline text*/
 .name {
     font-weight: 400;
 }

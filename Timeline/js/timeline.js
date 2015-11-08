@@ -1,109 +1,27 @@
-var dataset1 = [
-	{
-	 "section": "diploma",
-	 "events": [
-	    {
-            "debutDate": 2009,
-            "endDate": 2009,
-            "name": "Baccalaureat",
-            "description": "High School Diploma"
-        },
-	    {
-            "debutDate": 2014,
-            "endDate": 2014,
-            "name": "Master of cooking in Lemon Meringue Pie",
-            "description": "Specialisation in cookies and kit kat ball ice-cream"
-        }
-	  ]
-    },
-    {
-	 "section": "studies",
-	 "events": [
-	    {
-            "debutDate": 2009,
-            "endDate": 2011,
-            "name": "Cooking",
-            "description": "Classes preparing for entrance examinations to the French Cooking School"
-        },
-	    {
-            "debutDate": 2011,
-            "endDate": 2014,
-            "name": "A la bonne fourchette",
-            "description": "Cooking School"
-        }
-	  ]
-    },
-];
-var dataset2 = [
-	{
-	 "section": "persoXP",
-	 "events": [
-	    {
-            "debutDate": 2011,
-            "endDate": 2014,
-            "name": "Private Teaching",
-            "description": "One pie a day"
-        },
-	    {
-            "debutDate": 2012,
-            "endDate": 2013,
-            "name": "President of the pie cooking club",
-            "description": "Student association"
-        },
-	    {
-            "debutDate": 2013,
-            "endDate": 2014,
-            "name": "The longest pie ever",
-            "description": "Specialisation Pie Project"
-        }
-	  ]
-    },
-    {
-	 "section": "proXP",
-	 "events": [
-	    {
-            "debutDate": 2012,
-            "endDate": 2012,
-            "name": "Internship at La bonne auberge",
-            "description": "Restaurant hosting"
-        },
-	    {
-            "debutDate": 2013,
-            "endDate": 2013,
-            "name": "Internship at La bonne tarte",
-            "description": "Responsible of the croissants"
-        },
-	    {
-            "debutDate": 2014,
-            "endDate": 2014,
-            "name": "Internship at Le bon gateau",
-            "description": "The perfect pie"
-        }
-	  ]
-    },
-];
 //Width and height
 var gapYears = 150; //Space between two years in px
-var w = 1100;
-var h = 3.5 * gapYears; //TODO Replace 4 per number of events in dataset
+var w = 1000;
+var h = 450; //TODO Replace 4 per number of events in dataset
 var marginAroundTimeline = 30;
+var eventWidth = 300;
 
 //Create SVG element
 var svg = d3.select('#chart')
 					.append("svg")
 					.attr("width", w)
-					.attr("height", h);
+					.attr("height", h)
+						.append('g')
+						.attr('id','mainTimeline');
 
 /**** Vertical timeline ****/
-var timeline = svg.append('g')
-					.attr("id","timeline");
+var timeline = d3.select('g#mainTimeline').append('g')
+											.attr("id","timeline");
 //Create Y axis
 var yAxis = timeline.append("g")
 						.attr("class", "y axis")
 						.attr("transform", "translate(" + w/2 + ",0)");
 
 function update(dataset){
-
 	var minYear = d3.min(dataset, function(d){
 		return d3.min(d.events,function(k){return k.debutDate;});
 	});
@@ -144,7 +62,7 @@ function update(dataset){
 
 	/**** Section and events containers, binding****/
 
-	var sectionContainer = d3.select('svg').selectAll('g.section')
+	var sectionContainer = d3.select('g#mainTimeline').selectAll('g.section')
 											.data(dataset);
 
 				sectionContainer.enter()
@@ -159,12 +77,13 @@ function update(dataset){
 	/**** Add texts ****/
 	//svg.selectAll('g.section').selectAll('g.events').remove();
 
-	var eventsContainer = svg.selectAll('g.section').selectAll('g.events')
+	var eventsContainer = d3.select('g#mainTimeline').selectAll('g.section').selectAll('g.events')
 														.data(function(d){return d.events;});
 
 										eventsContainer.enter()
 														.append('g')
-														.attr('class','events');
+														.attr('class','events')
+														.attr('width',eventWidth);
 
 										eventsContainer.attr('id',function(d,i){return i;})
 														.attr('transform',function(d){
@@ -235,32 +154,6 @@ var descriptions = eventsContainer.selectAll('text.description')
 
 }
 
-update(dataset1);
-var i = 0;
 
-d3.select('#change').on('click',function(){
-	if (i === 0) {
-	    update(dataset2);
-		i = 1;
-	} else {
-		update(dataset1);
-		i=0;
-	}
 
-});
-
-var compteur = 0;
-var i = 1;
-window.addEventListener("wheel", function(e){
-	compteur += e.deltaY;
-	console.log(compteur);
-
-	if (compteur > 100 && i!=2) {
-		update(dataset2);
-		i = 2;
-	} else if (compteur < 100 && i!=1){
-		update(dataset1);
-		i = 1;
-	}
-
-});
+update(dataset[0]);
