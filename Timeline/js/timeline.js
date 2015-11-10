@@ -124,8 +124,13 @@ function update(dataset){
 
 						names.text(function(d){return d;})
 								.attr('opacity',0)
+								.attr('y',function(){
+									var index = getSectionIndex(this.parentNode,sectionNames); //Section index
+									return index % 2 === 0 ? marginAroundTimeline : -marginAroundTimeline;
+								})
 								.transition()
-		                        .duration(1000)
+								.duration(1000)
+								.attr('y',0)
 								.attr('opacity',1)
 								.each(function(d,i){
 									//this = <text>name</text>
@@ -154,13 +159,18 @@ function update(dataset){
 
 						descriptions.enter()
 						 				.append('text')
-										.attr('class','description')
-										.attr('transform','translate(0,20)');
+										.attr('class','description');
+
 
 						descriptions.text(function(d){return d;})
 										.attr('opacity',0)
+										.attr('y',function(){
+											var index = getSectionIndex(this.parentNode,sectionNames); //Section index
+											return index % 2 === 0 ? (marginAroundTimeline-nameTopArray[d3.select(this.parentNode).attr('id')]) : -marginAroundTimeline;
+										})
 										.transition()
 				                        .duration(1000)
+										.attr('y',0)
 										.attr('opacity',1)
 										.each(function(d,i){
 											//Wrap <text>
@@ -205,17 +215,25 @@ function update(dataset){
 								.append('line')
 								.attr('class','eventLines')
 								.attr('x1',0)
-								.attr('x2',0)
-								.attr('y1',0);
+								.attr('x2',0);
 
-					eventLines.attr('y1',function(d){
+
+				/**Lines animation initalisation**/
+				eventLines.attr('y1',function(d){ //for animation, on top part, y1 must be originally at the axis level
 									var index = getSectionIndex(this.parentNode,sectionNames); //Section index
 									if (index % 2 === 0) {//top
-										return (-nameTopArray[d3.select(this.parentNode).attr('id')]-lineTopPadding);
-									} else {//bottom
-										return -marginAroundTimeline + tickPadding + d3.select('g.tick text').node().getBBox().height; //size of tick texts
+										return marginAroundTimeline + descriptionTopArray[d3.select(this.parentNode).attr('id')];
 									}
 								})
+								.attr('y2',function(d){ //for animation, on bottom part, y2 must be originally at the axis level
+												var index = getSectionIndex(this.parentNode,sectionNames); //Section index
+												if (index % 2 !== 0) {//Bottom
+													return -marginAroundTimeline + tickPadding + d3.select('g.tick text').node().getBBox().height; //size of tick texts
+												}
+								});
+
+				eventLines.transition()
+								.duration(1000)
 								.attr('y2',function(d){
 									var index = getSectionIndex(this.parentNode,sectionNames); //Section index
 									if (index % 2 === 0) {//top
@@ -223,6 +241,14 @@ function update(dataset){
 									} else {//bottom
 										return nameBottomArray[d3.select(this.parentNode).attr('id')] + descriptionBottomArray[d3.select(this.parentNode).attr('id')] + lineTopPadding;
 									}
+								})
+								.attr('y1',function(d){
+												var index = getSectionIndex(this.parentNode,sectionNames); //Section index
+												if (index % 2 === 0) {//top
+													return (-nameTopArray[d3.select(this.parentNode).attr('id')]-lineTopPadding);
+												} else {//bottom
+													return -marginAroundTimeline + tickPadding + d3.select('g.tick text').node().getBBox().height; //size of tick texts
+												}
 								});
 
 					eventLines.exit()

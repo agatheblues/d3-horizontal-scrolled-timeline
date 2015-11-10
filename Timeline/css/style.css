@@ -15,7 +15,7 @@ src: url('font/BebasNeueLight.otf') format('opentype');
 body {
     font-family: Open Sans;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 svg {
