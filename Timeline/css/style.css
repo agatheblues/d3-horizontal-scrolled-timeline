@@ -15,7 +15,7 @@ src: url('font/BebasNeueLight.otf') format('opentype');
 body {
     font-family: Open Sans;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 svg {
@@ -65,4 +65,9 @@ circle.marker.active {
 /* Timeline text*/
 .name {
     font-weight: 400;
+}
+
+.eventLines {
+    stroke: red;
+    stroke-width: 1px;
 }

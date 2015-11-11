@@ -1,10 +1,22 @@
+var n = dataset.length;
+var radius = 4;
+var betweenCircles = 15;
 
-//Menu container
+/* Menu container */
 var menuContainer = d3.select('div#chart').select('svg')
 											.append('g')
-											.attr('id','menuContainer');
+											.attr('id','menuContainer')
+											.attr('transform',function(){
+												/** Center the middle of the menu with the timeline **/
+												if (n % 2 === 0) {
+													return 'translate(0,'+ (h/2 - betweenCircles/2 - (n/2 -1)*betweenCircles) +')';
+												} else {
+													return 'translate(0,'+ (h/2 - (n-1)*betweenCircles/2) +')';
+												}
 
-//menu circles items
+											});
+
+/* Menu circles items */
 var menuCircles = menuContainer.selectAll('circle').data(dataset);
 
 	menuCircles.enter()
@@ -12,17 +24,17 @@ var menuCircles = menuContainer.selectAll('circle').data(dataset);
 					.attr('class',function(d,i){
 						return i === 0 ? 'marker active' : 'marker';
 					})
-					.attr('r',4)
-					.attr('cx',w-15);
+					.attr('r',radius)
+					.attr('cx',w-betweenCircles);
 
 	menuCircles.attr('id',function(d,i){return 'marker'+i;})
-				.attr('cy',function(d,i){return h/3+i*15;});
+				.attr('cy',function(d,i){return i*betweenCircles;});
 
 	menuCircles.exit()
 				.remove();
 
-//on click; go to next and get active class
-
+/* Click handler
+On click, go to next and get active class */
 var updateMarker = function(newMarker,i){
 	menuContainer.selectAll('circle.marker').attr('class','marker');
 	newMarker.attr('class','marker active');
@@ -34,12 +46,10 @@ menuContainer.selectAll('circle.marker')
 					updateMarker(d3.select(this),i);
 				});
 
-/*/ Scroll handler */
+/* Scroll handler */
 var i = 0;
 var compteur = 0;
-var n = dataset.length;
-var scrollLimit = 170;
-
+var scrollLimit = 150;
 
 window.addEventListener("wheel", function(e){
 	compteur += e.deltaY;
@@ -53,10 +63,10 @@ window.addEventListener("wheel", function(e){
 	}
 
 	//From i to i+1; From i to i-1
-	if (compteur > (i+1)*scrollLimit && i!=n-1) {
+	if (compteur > (i+1)*scrollLimit && i!==n-1) {
 		update(dataset[++i]); //Change dataset
 		updateMarker(d3.select('#marker'+i),i); //change marker on menu nav
-	} else if (compteur < i*scrollLimit && i!=0) {
+	} else if (compteur < i*scrollLimit && i!==0) {
 		update(dataset[--i]);
 		updateMarker(d3.select('#marker'+i),i);
 	}
