@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Khula:300,400,600);
 @font-face {
 font-family: BebasNeueRegular;
 src: url('font/BebasNeueRegular.otf') format('opentype');
@@ -13,9 +13,10 @@ src: url('font/BebasNeueLight.otf') format('opentype');
 }
 
 body {
-    font-family: Open Sans;
+    font-family: Khula;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 14px;
+    background-color: #F9F0E0;
 }
 
 svg {
@@ -31,35 +32,33 @@ svg {
 }
 
 circle.marker {
-    fill: white;
-    stroke: black;
+    fill: #F9F0E0;
+    stroke: #102542;
     stroke-width: 0.5px;
     cursor: pointer;
 }
 
 circle.marker.active {
-    fill: black;
-    stroke: black;
-    stroke-width: 0.5px;
+    fill: #102542;
 }
 
 
 /* Timeline axis*/
 .axis path, .axis line {
     fill: none;
-    stroke: red;
-    stroke-width: 3;
+    stroke: #102542;
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-dasharray: 0.1, 10.15;
 }
 
 .axis text {
     font-family: BebasNeueLight;
-    font-size: 18px;
+    font-size: 19px;
 }
 
 #timeline circle {
-    fill: red;
+    fill: #102542;
 }
 
 /* Timeline text*/
@@ -68,6 +67,6 @@ circle.marker.active {
 }
 
 .eventLines {
-    stroke: red;
-    stroke-width: 1px;
+    stroke: #F87060;
+    stroke-width: 1.5px;
 }

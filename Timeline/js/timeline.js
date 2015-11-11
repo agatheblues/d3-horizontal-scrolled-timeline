@@ -1,6 +1,7 @@
-var w = 1000;
-var h = 450;
+var w = 1200;
+var h = 550;
 var marginAroundTimeline = 80; 	// Margin between the axis and the events
+var radiusAxis = 6; 			// Axis circles radius
 var tickPadding = 15; 			// Padding between ticks and dates on the axis
 var betweenEventPadding = 25;	// Space between events horizontally
 var eventLeftPadding = 5;		// Padding between the vertical line and the event texts
@@ -65,7 +66,7 @@ function update(dataset){
 	/** Axis ticks to be circles **/
 	var ticks = yAxis.selectAll(".tick");
 		ticks.each(function() {
-			d3.select(this).append("circle").attr("r", 5);
+			d3.select(this).append("circle").attr("r", radiusAxis);
 		});
 	/* End of axis creation */
 
@@ -231,7 +232,7 @@ function update(dataset){
 				eventLines.attr('y1',function(d){
 									var index = getSectionIndex(this.parentNode,sectionNames); 		// If it's a line from the top area, transition goes from the bottom to the top
 										if (index % 2 === 0) {
-											return marginAroundTimeline + descriptionsTopArray[d3.select(this.parentNode).attr('id')];
+											return marginAroundTimeline + descriptionsTopArray[d3.select(this.parentNode).attr('id')] - tickPadding;
 										}
 								})
 								.attr('y2',function(d){ // If it's a line from the bottom area, transition goes from the top to the bottom
@@ -247,7 +248,7 @@ function update(dataset){
 								.attr('y2',function(d){
 									var index = getSectionIndex(this.parentNode,sectionNames);
 										if (index % 2 === 0) {
-											return marginAroundTimeline + descriptionsTopArray[d3.select(this.parentNode).attr('id')];
+											return marginAroundTimeline + descriptionsTopArray[d3.select(this.parentNode).attr('id')] - tickPadding;
 										} else {
 											return namesBottomArray[d3.select(this.parentNode).attr('id')] + descriptionsBottomArray[d3.select(this.parentNode).attr('id')] + linePadding;
 										}

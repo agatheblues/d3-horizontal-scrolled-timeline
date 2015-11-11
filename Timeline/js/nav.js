@@ -1,5 +1,5 @@
 var n = dataset.length;
-var radius = 4;
+var radiusNav = 4;
 var betweenCircles = 15;
 
 /* Menu container */
@@ -24,7 +24,7 @@ var menuCircles = menuContainer.selectAll('circle').data(dataset);
 					.attr('class',function(d,i){
 						return i === 0 ? 'marker active' : 'marker';
 					})
-					.attr('r',radius)
+					.attr('r',radiusNav)
 					.attr('cx',w-betweenCircles);
 
 	menuCircles.attr('id',function(d,i){return 'marker'+i;})
